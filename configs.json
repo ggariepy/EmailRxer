@@ -1,0 +1,7 @@
+{
+    "popServer" : "***REMOVED***",
+    "popPort"   : 110,
+    "popUser"   : "***REMOVED***",
+    "popPass"   : "***REMOVED***",
+    "pollFreq"  : 20
+}
