@@ -2,6 +2,8 @@
 #  EmailRxer.py
 import poplib as pop
 import json as js
+import MessageClasses as mclass
+import queue
 
 # Get configs
 file = open("configs.json", 'rt')
@@ -26,8 +28,8 @@ for messagenum in range(numMessages):
         if messageBody == False:
             segments = line.split(b': ')
             if len(segments) > 1:
-                key = str(segments[0])
-                val = str(segments[1])
+                key = segments[0].decode('ASCII')
+                val = segments[1].decode('ASCII')
                 if key == 'Content-Type':
                     messageBody = True
                     headers[key] = val
@@ -35,19 +37,22 @@ for messagenum in range(numMessages):
                 or key == 'Date' or key == 'Subject' \
                 or key == 'To':
                     headers[key] = val
-        else: Body += line
+        else: Body += line.decode('ASCII')
     Messages[messagenum] = (headers, Body)
-    M.dele(messagenum + 1)        
+    #M.dele(messagenum + 1)        
 M.quit()
 
 print ("Retrieved " + str(numMessages) + " message(s).")
 
-for msg in Messages:
-    headers = msg[0]
-    body = msg[1]
-    print("To: " + headers["To"])
-    print ("From: " + headers["From"])
-    print ("Subject: " + headers["Subject"])
-    print ("Date:"  + headers["Date"])
-    print ("Body:\n" + body)
-    print ("\n----\n")
+msgQueue = queue.Queue(0)
+for msg in Messages.items():
+    headers = msg[1][0]
+    strBody = msg[1][1]
+    strTo = headers["To"]
+    strFrom = headers["From"]
+    strSubject = headers["Subject"]
+    strDate = headers["Date"]
+    thismsg = mclass.Message(strTo, strFrom, strDate, strSubject, strBody)
+    msgQueue.put(thismsg)
+
+print ("Enqueued " + str(msgQueue._qsize()) + " messages")
