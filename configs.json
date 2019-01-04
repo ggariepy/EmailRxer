@@ -2,7 +2,7 @@
     "popServer" : "***REMOVED***",
     "popPort"   : 110,
     "popUser"   : "***REMOVED***",
-    "popPass"   : "***REMOVED***",
+    "popPass"   : "",
     "pollFreq"  : 20,
     "deleteMsgs": false
 }
