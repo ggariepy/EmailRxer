@@ -18,7 +18,7 @@ class EmailReceiver(Thread):
     
     def __init__(self, MessageList, MessageQueue):
         Thread.__init__(self)
-        self.kill_received = False
+        self.shutdown_thread = False
 
         # Import the list of messages already retrieved
         self.AlreadyRead = []
@@ -44,8 +44,7 @@ class EmailReceiver(Thread):
         the Message class for any email not seen until
         now.
         """
-        while not self.kill_received:
-            print(f'EmailReceiver thread: self.kill_received={self.kill_received}')
+        while not self.shutdown_thread:
             # Establish connection to POP3 server
             self.PopSrvConn = pop.POP3(self.popServer)
             self.PopSrvConn.user(self.popUser)
@@ -91,4 +90,4 @@ class EmailReceiver(Thread):
             self.PopSrvConn.quit()
             self.RetrieveStatus = f'Retrieved {str(newMsgs)} message(s).' 
             time.sleep(self.pollFreq)
-        print("EmailReceiver thread: I'm done now!")
+        print("EmailReceiver worker thread shutting down.")

@@ -17,7 +17,7 @@ def handler(signum, frame):
     global Die
     Die = True
 
-def DoWork(message):
+def ParseMessage(message):
     print(f'Message-Id: {message.MsgId}')
     print(f'To: {message.To}')
     print(f'From: {message.From}')
@@ -48,10 +48,9 @@ while len(threads) > 0:
         else:
             message = queuedmsgs.get(False)
             if message is not None:
-                DoWork(message)
+                ParseMessage(message)
                 message = None
                 queuedmsgs.task_done()
     except queue.Empty:
         time.sleep(2)
         pass
-        
