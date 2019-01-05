@@ -7,5 +7,5 @@
     "deleteMsgs": false,
     "twilioAuthToken" : "***REMOVED***",
     "twilioAcctSID" : "***REMOVED***",
-    "twilioURI" : "https://twilio.com/"
+    "twilioSourcePhone" : "***REMOVED***"
 }

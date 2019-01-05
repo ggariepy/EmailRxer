@@ -1,5 +1,7 @@
 from threading import Thread, Lock 
-from queue import Queue
+from twilio.rest import Client
+import logging
+import json as js
 import time
 class TextMessenger(Thread):
     """ 
@@ -7,13 +9,13 @@ class TextMessenger(Thread):
     """
     lock = Lock()
     
-    def __init__(self, recipient, messageBody):
+    def __init__(self, txtMsgRecipient, txtMsgBody):
         Thread.__init__(self)
         self.shutdown_thread = False
 
         # Import the list of messages already retrieved
-        self.recipient = recipient
-        self.messageBody = messageBody
+        self.txtMsgRecipient = txtMsgRecipient
+        self.txtMsgBody = txtMsgBody
 
         # Get configs
         self.cfgfile = open("configs.json", 'rt')
@@ -21,7 +23,7 @@ class TextMessenger(Thread):
         self.cfgfile.close()
         self.twilioAuthToken = self.configs['twilioAuthToken']
         self.twilioAcctSID = self.configs['twilioAcctSID']
-        self.twilioURI = self.configs['twilioURI']
+        self.twilioSourcePhone = self.configs['twilioSourcePhone']
 
 
     def run(self):
@@ -29,8 +31,15 @@ class TextMessenger(Thread):
         Makes a connection to the Twilio API 
         to send a text message
         """
-        while not self.shutdown_thread:
-            # Establish connection to Twilio server
+        if not self.shutdown_thread:
+            try:
+                # Establish connection to Twilio server
+                client = Client(self.twilioAcctSID, self.twilioAuthToken)
 
-            # Send message to the phone number
-                       
+                # Send message to the phone number
+                twilioMsg = client.messages.create(
+                    to=self.txtMsgRecipient, 
+                    from_=self.twilioSourcePhone,
+                    body=self.txtMsgBody)   
+            except:
+                    
