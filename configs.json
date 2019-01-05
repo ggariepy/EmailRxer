@@ -1,8 +1,0 @@
-{
-    "popServer" : "***REMOVED***",
-    "popPort"   : 110,
-    "popUser"   : "***REMOVED***",
-    "popPass"   : "",
-    "pollFreq"  : 20,
-    "deleteMsgs": false
-}
