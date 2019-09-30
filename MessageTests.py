@@ -9,9 +9,10 @@ class TestMsg(TestCase):
     def setUp(self):
         """ Set up a test instance of the Message class""" 
         self.testMsg = Message(
+            MsgId = '0001',
             To='geoff.gariepy@gmail.com',
             From='somebody@somewhere.com',
-            DateString='Mon, 31 Dec 2018 23:59:59 -0500',
+            Date='Mon, 31 Dec 2018 23:59:59 -0500',
             Subject='Hello, world',
             Body='Hi there, Geoff'
         )
@@ -25,8 +26,8 @@ class TestMsg(TestCase):
     def test_From(self):
         self.assertEqual(self.testMsg.From, 'somebody@somewhere.com', msg='From test failed')
     
-    def test_DateString(self):
-        self.assertEqual(self.testMsg.DateString, 'Mon, 31 Dec 2018 23:59:59 -0500', msg='DateString test failed')
+    def test_Dat(self):
+        self.assertEqual(self.testMsg.Date, 'Mon, 31 Dec 2018 23:59:59 -0500', msg='Date test failed')
     
     def test_Subject(self):
         self.assertEqual(self.testMsg.Subject, 'Hello, world', msg='Subject test failed')
