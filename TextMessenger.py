@@ -42,4 +42,4 @@ class TextMessenger(Thread):
                     from_=self.twilioSourcePhone,
                     body=self.txtMsgBody)   
             except:
-                    
+                print('Connection failed!')
